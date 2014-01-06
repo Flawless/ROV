@@ -66,7 +66,8 @@ void Widget::refresh()
     if(client->isReadable())
         client->read(buffer, client->bytesAvailable());
 
-    //ui->label_2->setText(buffer);
+    ui->label_2->setText(buffer);
+    ui->plainTextEdit->setPlainText(ui->plainTextEdit->toPlainText()+' '+buffer);
     QString str(buffer);
     Parse(str);
 }
