@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -46,6 +47,7 @@ void MainWindow::sendCommand(QString command)
     {
         socket.write(command.toStdString().c_str());
         ui->textEdit_commandsLog->append(command.toStdString().c_str());
+        ui->lineEdit_command->clear();
     }
 }
 
@@ -59,4 +61,10 @@ void MainWindow::on_pushButton_sendCommand_clicked()
 {
 //    if (checkCommand(ui->lineEdit_command->text()) then
             sendCommand(ui->lineEdit_command->text());
+}
+
+
+void MainWindow::on_lineEdit_command_returnPressed()
+{
+    on_pushButton_sendCommand_clicked();
 }

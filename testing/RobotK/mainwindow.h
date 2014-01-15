@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QtNetwork/QTcpSocket>
 #include <QtNetwork/QHostAddress>
+#include <QtGui/QKeyEvent>
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +27,8 @@ private slots:
 //    bool checkCommand(char command);
 
     void on_pushButton_sendCommand_clicked();
+
+    void on_lineEdit_command_returnPressed();
 
 signals:
 private:
