@@ -96,19 +96,6 @@
    </property>
    <layout class="QGridLayout" name="gridLayout"/>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>0</y>
-     <width>239</width>
-     <height>309</height>
-    </rect>
-   </property>
-   <property name="plainText">
-    <string/>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_cl">
    <property name="geometry">
     <rect>
@@ -122,6 +109,16 @@
     <string>clear</string>
    </property>
   </widget>
+  <widget class="QTextEdit" name="textEdit_commandsLog">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>10</y>
+     <width>211</width>
+     <height>291</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
@@ -129,16 +126,16 @@
   <connection>
    <sender>pushButton_cl</sender>
    <signal>clicked()</signal>
-   <receiver>plainTextEdit</receiver>
+   <receiver>textEdit_commandsLog</receiver>
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>437</x>
-     <y>316</y>
+     <x>423</x>
+     <y>320</y>
     </hint>
     <hint type="destinationlabel">
-     <x>415</x>
-     <y>277</y>
+     <x>422</x>
+     <y>271</y>
     </hint>
    </hints>
   </connection>
