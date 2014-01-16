@@ -68,3 +68,43 @@ void MainWindow::on_lineEdit_command_returnPressed()
 {
     on_pushButton_sendCommand_clicked();
 }
+
+void MainWindow::on_pushButton_up_clicked()
+{
+    sendCommand("#mh.0." + QString::number((ui->spinBox_power->value())) + "!");
+}
+
+void MainWindow::on_pushButton_up_right_clicked()
+{
+    sendCommand("#mh.45." + QString::number((ui->spinBox_power->value())) + "!");
+}
+
+void MainWindow::on_pushButton_right_clicked()
+{
+    sendCommand("#mh.90." + QString::number((ui->spinBox_power->value())) + "!");
+}
+
+void MainWindow::on_pushButton_down_right_clicked()
+{
+    sendCommand("#mh.135." + QString::number((ui->spinBox_power->value())) + "!");
+}
+
+void MainWindow::on_pushButton_down_clicked()
+{
+    sendCommand("#mh.180." + QString::number((ui->spinBox_power->value())) + "!");
+}
+
+void MainWindow::on_pushButton_down_left_clicked()
+{
+    sendCommand("#mh.225." + QString::number((ui->spinBox_power->value())) + "!");
+}
+
+void MainWindow::on_pushButton_left_clicked()
+{
+    sendCommand("#mh.270." + QString::number((ui->spinBox_power->value())) + "!");
+}
+
+void MainWindow::on_pushButton_up_left_clicked()
+{
+    sendCommand("#mh.315." + QString::number((ui->spinBox_power->value())) + "!");
+}
