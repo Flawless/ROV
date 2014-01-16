@@ -30,6 +30,22 @@ private slots:
 
     void on_lineEdit_command_returnPressed();
 
+    void on_pushButton_up_clicked();
+
+    void on_pushButton_up_right_clicked();
+
+    void on_pushButton_right_clicked();
+
+    void on_pushButton_down_right_clicked();
+
+    void on_pushButton_down_clicked();
+
+    void on_pushButton_down_left_clicked();
+
+    void on_pushButton_left_clicked();
+
+    void on_pushButton_up_left_clicked();
+
 signals:
 private:
     Ui::MainWindow *ui;
