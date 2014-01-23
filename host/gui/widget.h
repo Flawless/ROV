@@ -59,7 +59,7 @@ private:
     QTimer timer;
     Ui::Widget *ui;
     SixEnginesRC rc;
-    JoystickControl jc;
+    JoystickControl joystick;
     bool joystickEnabled,
             initialized;
     EnginesMap em;

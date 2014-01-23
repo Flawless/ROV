@@ -34,8 +34,8 @@ public:
     } HatStates;
 
 private:
-    int buttons, hats,
-        oldX, oldY, oldZ;
+    int initializeons, hats,
+        oldX, oldY, oldZ, numButtons;
     QVector<bool> buttonStates;
     QVector<int> hatStates;
     QTimer timer;

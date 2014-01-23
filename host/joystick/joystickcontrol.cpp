@@ -26,10 +26,10 @@ int JoystickControl::Initialize(QString joystickName, int updateTime)
                 timer.start(updateTime);
                 flag = 1;
             }
-        buttons = SDL_JoystickNumButtons(joystick);
+        numButtons = SDL_JoystickNumButtons(joystick);
         buttonStates.clear();
-        buttonStates.resize(buttons);
-        for(int i = 0; i < buttons; i++)
+        buttonStates.resize(numButtons);
+        for(int i = 0; i < numButtons; i++)
             buttonStates[i] = false;
 
         hats = SDL_JoystickNumHats(joystick);
@@ -64,7 +64,7 @@ void JoystickControl::TimerTick()
         oldZ = newZ;
         emit axisEvent(newX, newY, newZ);
     }
-    for(int i = 0; i < buttons; i++)
+    for(int i = 0; i < numButtons; i++)
         if(SDL_JoystickGetButton(joystick, i) != buttonStates[i])
         {
             buttonStates[i] = SDL_JoystickGetButton(joystick, i);

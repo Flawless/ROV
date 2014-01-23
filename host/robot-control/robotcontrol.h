@@ -67,6 +67,10 @@ public:
 
     void CloseManip(int commands);
 
+    void WriteSpeed(int speed, int engine);
+
+    void WriteReverse(int reverse, int engine);
+
 protected:
     std::auto_ptr<VerticalController> vertc;
     QTcpSocket socket;
@@ -101,10 +105,6 @@ protected:
     } currentState;
 
     virtual void CalcEnginesData();
-
-    void WriteSpeed(int speed, int engine);
-
-    void WriteReverse(int reverse, int engine);
 
     void SetSpeed(int speed, int engine);
 

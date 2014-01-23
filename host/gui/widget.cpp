@@ -2,7 +2,7 @@
 #include "ui_widget.h"
 
 #include <QDebug>
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 #include <QFile>
 #include <QTextStream>
 #include <QTextCodec>
@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent) :
     joystickEnabled(false),
     initialized(false)
 {
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("Windows-1251"));
+    //QTextCodec::setCodecForTr(QTextCodec::codecForName("Windows-1251"));
     ui->setupUi(this);
     LoadConfig("rc.cfg");
 
@@ -24,14 +24,14 @@ Widget::Widget(QWidget *parent) :
 
     ui->joystickCombo->addItems(JoystickControl::GetJoystickNames());
 
-    connect(&jc, SIGNAL(axisEvent(int,int,int)), this, SLOT(joystick_axisChanged(int,int,int)));
-    connect(&jc, SIGNAL(buttonEvent(int,bool)), this, SLOT(joystick_buttonPressed(int,bool)));
+    connect(&joystick, SIGNAL(axisEvent(int,int,int)), this, SLOT(joystick_axisChanged(int,int,int)));
+    connect(&joystick, SIGNAL(buttonEvent(int,bool)), this, SLOT(joystick_buttonPressed(int,bool)));
     connect(&rc, SIGNAL(Disconnected()), this, SLOT(RCDisconnected()));
 
     if(JoystickControl::GetJoystickNames().length() < 1)
         QMessageBox::warning(this, "Error", "No joysticks available!");
     else
-        if(jc.Initialize(ui->joystickCombo->currentText(), 50) < 0)
+        if(joystick.Initialize(ui->joystickCombo->currentText(), 50) < 0)
             QMessageBox::warning(this, "Error", "Couldn't open joystick!");
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(timer_tick()));
@@ -99,9 +99,9 @@ void Widget::joystick_buttonPressed(int buttonId, bool state)
 void Widget::joystick_hatChanged(int hatId, int state)
 {
     int value = ui->manipSpin->value();
-    if(state == jc.Up)
+    if(state == joystick.Up)
         rc.OpenManip(value);
-    if(state == jc.Down)
+    if(state == joystick.Down)
         rc.CloseManip(value);
 }
 
@@ -151,7 +151,7 @@ void Widget::timer_tick()
 
 void Widget::on_comboBox_2_currentIndexChanged(const QString &arg1)
 {
-    if(! jc.Initialize(arg1, 100) > 0)
+    if(! joystick.Initialize(arg1, 100) > 0)
         QMessageBox::warning(this, "Error", "Couldn't open joystick!");
 }
 
