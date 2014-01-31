@@ -148,19 +148,19 @@ void RobotControl::SetReverse(int reverse, int engine)
         ed.newReverse[engine] = reverse;
 }
 
-void RobotControl::WriteSpeed(int speed, int engine)
-{
-    QString toWrite = "#p" + QString::number(engine) + QString::number(speed) + '!';
-    if(socket.isWritable())
-        socket.write(toWrite.toStdString().c_str());
-}
+//void RobotControl::WriteSpeed(int speed, int engine)
+//{
+//    QString toWrite = "#p" + QString::number(engine) + QString::number(speed) + '!';
+//    if(socket.isWritable())
+//        socket.write(toWrite.toStdString().c_str());
+//}
 
-void RobotControl::WriteReverse(int reverse, int engine)
-{
-    QString toWrite ="#r" + QString::number(engine) + QString::number(reverse) + '!';
-    if(socket.isWritable())
-        socket.write(toWrite.toStdString().c_str());
-}
+//void RobotControl::WriteReverse(int reverse, int engine)
+//{
+//    QString toWrite ="#r" + QString::number(engine) + QString::number(reverse) + '!';
+//    if(socket.isWritable())
+//        socket.write(toWrite.toStdString().c_str());
+//}
 
 void RobotControl::OpenManip(int commands)
 {
@@ -180,30 +180,49 @@ void RobotControl::CloseManip(int commands)
         socket.write(toWrite.toStdString().c_str());
 }
 
+char RobotControl::MakeCommand(Command)
+{
+    char command = "#" + Command->name;
+    for (int i = 0; i < Command->args.size(); ++i) {
+        command += "." + Command->args.at(i);
+    }
+    return command += "!";
+}
+
+void RobotControl::WriteCommand(char commandToWrite)
+{
+    if(socket.isWritable())
+        socket.write(commandToWrite);
+}
+
+//void RobotControl::TimerTick()
+//{
+//    CalcEnginesData();
+
+//    for(int i = 0; i < engines; i++)
+//        ed.ticksSinceLastReverse[i]++;
+
+//    lastEngine++;
+
+//        if(lastEngine >= engines)
+//            lastEngine = 0;
+
+//        if (ed.ticksSinceLastReverse[lastEngine] >= ticksForReverse &&
+//                ed.newReverse[lastEngine] != ed.actualReverse[lastEngine])
+//        {
+//            ed.ticksSinceLastReverse[lastEngine] = 0;
+//            ed.actualReverse[lastEngine] = ed.newReverse[lastEngine];
+//            WriteReverse(ed.actualReverse[lastEngine], lastEngine);
+//        }else
+//        if (ed.newSpeed[lastEngine] != ed.actualSpeed[lastEngine])
+//        {
+//            ed.actualSpeed[lastEngine] = ed.newSpeed[lastEngine];
+//            WriteSpeed(ed.actualSpeed[lastEngine], lastEngine);
+//        }
+//}
 void RobotControl::TimerTick()
 {
-    CalcEnginesData();
-
-    for(int i = 0; i < engines; i++)
-        ed.ticksSinceLastReverse[i]++;
-
-    lastEngine++;
-
-        if(lastEngine >= engines)
-            lastEngine = 0;
-
-        if (ed.ticksSinceLastReverse[lastEngine] >= ticksForReverse &&
-                ed.newReverse[lastEngine] != ed.actualReverse[lastEngine])
-        {
-            ed.ticksSinceLastReverse[lastEngine] = 0;
-            ed.actualReverse[lastEngine] = ed.newReverse[lastEngine];
-            WriteReverse(ed.actualReverse[lastEngine], lastEngine);
-        }else
-        if (ed.newSpeed[lastEngine] != ed.actualSpeed[lastEngine])
-        {
-            ed.actualSpeed[lastEngine] = ed.newSpeed[lastEngine];
-            WriteSpeed(ed.actualSpeed[lastEngine], lastEngine);
-        }
+//    WriteCommand();
 }
 
 void RobotControl::StartWriting()

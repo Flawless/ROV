@@ -9,6 +9,12 @@
 #include "auto_ptr.h"
 
 #include "verticalcontroller.h"
+class Command
+{
+public:
+    QString name;
+    QVector<char> args;
+};
 
 class RobotControl : public QObject
 {
@@ -70,6 +76,10 @@ public:
     void WriteSpeed(int speed, int engine);
 
     void WriteReverse(int reverse, int engine);
+
+    void WriteCommand(char commandToWrite);
+
+    static char MakeCommand(Command cV);
 
 protected:
     std::auto_ptr<VerticalController> vertc;

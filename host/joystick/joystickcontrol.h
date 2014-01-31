@@ -52,4 +52,11 @@ private slots:
     void TimerTick();
 };
 
+class Radius
+{
+public:
+    int angle;
+    int length;
+};
+
 #endif // JOYSTICKCONTROL_H
