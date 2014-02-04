@@ -7,126 +7,117 @@
 #include <QtNetwork/QTcpSocket>
 
 #include "auto_ptr.h"
-
-#include "verticalcontroller.h"
 class Command
 {
 public:
-    QString name;
-    QVector<char> args;
+  QString name;
+  QVector<char> args;
 };
 
 class RobotControl : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit RobotControl(QObject *parent = 0);
+  struct moveSpeed
+  {
+    int angle,
+    speed;
+  };
+  explicit RobotControl(QObject *parent = 0);
 
-    ~RobotControl();
+  ~RobotControl();
 
-    int Initialize(QString address, int port, int _engines, int _tickTime);
+  int Initialize(QString address, int port, int _tickTime);
 
-    void SetVerticalSpeed(int value);
+  void SetVerticalSpeed(int value);
 
-    void SetMoveSpeed(int value);
+  void SetMoveSpeed(int speed, int angle);
 
-    void SetRotateSpeed(int value);
+  void SetRotateSpeed(int value);
 
-    void SetPitchSpeed(int value);
+  void SetPitchSpeed(int value);
 
-    void SetHalt(bool state);
+  void SetHalt(bool state);
 
-    void SetPitching(bool state);
+  void SetPitching(bool state);
 
-    void StartEngines();
+  void StartEngines();
 
-    void StopEngines();
+  void StopEngines();
 
-    void StopWriting();
+  void StopWriting();
 
-    void StartWriting();
+  void StartWriting();
 
-    int GetSpeed(int engine);
+  int GetSpeed();
 
-    bool GetReverse(int engine);
+  bool GetReverse();
 
-    bool GetHalt();
+  bool GetHalt();
 
-    double GetDepth();
+  double GetDepth();
 
-    double GetPitch();
+  double GetPitch();
 
-    void SetTargetDepth(double tgDepth);
+  void SetTargetDepth(double tgDepth);
 
-    void SetTargetPitch(double tgPitch);
+  void SetTargetPitch(double tgPitch);
 
-    void SetManualControl(bool state);
+  void SetManualControl(bool state);
 
-    void SetPitchReg(bool state);
+  void SetPitchReg(bool state);
 
-    void SetDepthReg(bool state);
+  void SetDepthReg(bool state);
 
-    bool EnginesStarted();
+  bool EnginesStarted();
 
-    void OpenManip(int commands);
+  void OpenManip(int commands);
 
-    void CloseManip(int commands);
+  void CloseManip(int commands);
 
-    void WriteSpeed(int speed, int engine);
+  //void WriteSpeed(int speed, int engine);
 
-    void WriteReverse(int reverse, int engine);
+  //void WriteReverse(int reverse, int engine);
 
-    void WriteCommand(char commandToWrite);
+  void WriteCommand(char *commandToWrite);
 
-    static char MakeCommand(Command cV);
+  char MakeCommand(Command cV);
 
 protected:
-    std::auto_ptr<VerticalController> vertc;
-    QTcpSocket socket;
-    QTimer timer;
-    int engines, tickTime,
-        ticksForReverse,
-        lastEngine;
-    int vertSpeed,
-        moveSpeed,
-        rotateSpeed,
-        pitchSpeed;
-    bool initialized, manualControl;
+  QTcpSocket socket;
+  QTimer timer;
+  int tickTime,
+  ticksForReverse;
+  int vertSpeed,
+  rotateSpeed,
+  pitchSpeed;
+  bool initialized, manualControl;
 
-    struct EngineData
-    {
-        QVector<int> newSpeed,
-                actualSpeed,
-                newReverse,
-                actualReverse,
-                ticksSinceLastReverse;
-        QVector<double> angle,
-                        coeff;
-    } ed;
 
-    enum State
-    {
-        Stop,
-        Move,
-        Yaw,
-        Pitch,
-        Roll
-    } currentState;
+  int     newSpeed,
+  actualSpeed;
+  double  angle,
+  coeff;
 
-    virtual void CalcEnginesData();
+  enum State
+  {
+    Stop,
+    Move,
+    Yaw,
+    Pitch,
+    Roll
+  } currentState;
 
-    void SetSpeed(int speed, int engine);
-
-    void SetReverse(int reverse, int engine);
+  //    virtual void CalcEnginesData();
 
 private slots:
-    void TimerTick();
+  void TimerTick();
 
-    void SocketDisconnected();
+  void SocketDisconnected();
 
 signals:
-    void Disconnected();
+  void Disconnected();
 };
 
 #endif // ROBOTCONTROL_H

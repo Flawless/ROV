@@ -1,6 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "joystick/joystickcontrol.h"
+#include "robot-control/robotcontrol.h"
 #include "math.h"
 
 #include <QDebug>
@@ -17,11 +18,6 @@ Widget::Widget(QWidget *parent) :
 {
   //QTextCodec::setCodecForTr(QTextCodec::codecForName("Windows-1251"));
   ui->setupUi(this);
-  LoadConfig("rc.cfg");
-
-  em.SetBackgroundImage(QImage("ROV.png"));
-  em.LoadConfig("em.cfg");
-  ui->gridLayout->addWidget(&em, 0, 0);
   
   ui->gridLayoutWidget->setLayout(ui->gridLayout);			
 									
@@ -29,7 +25,6 @@ Widget::Widget(QWidget *parent) :
 
   connect(&joystick, SIGNAL(axisEvent(int,int,int)), this, SLOT(joystick_axisChanged(int,int,int)));
   connect(&joystick, SIGNAL(buttonEvent(int,bool)), this, SLOT(joystick_buttonPressed(int,bool)));
-  connect(&rc, SIGNAL(Disconnected()), this, SLOT(RCDisconnected()));
 
   if(JoystickControl::GetJoystickNames().length() < 1)
     QMessageBox::warning(this, "Error", "No joysticks available!");
@@ -57,28 +52,6 @@ void Widget::joystick_axisChanged(int arg1, int arg2, int arg3)
       ui->verticalSlider_2->setValue(y);
       ui->verticalSlider->setValue(z);
       ui->horizontalSlider->setValue(x);
-      Radius radius;
-      radius.length = sqrt(y*y + x*x);
-      if(x>0 && y>=0)
-	radius.angle = atan(y/x);
-      else if(x>0 && y<0)
-	radius.angle = atan(y/x) + 2*M_PI;
-      else if(x<0)
-	radius.angle = atan(y/x) + M_PI;
-      else if(x==0 && y>0)
-	radius.angle = M_PI_2;
-      else if(x==0 && y>0)
-	radius.angle = 3*M_PI_2;
-      else if(x==0 && y==0)
-	radius.angle = 0;
-      radius.angle *= 180/M_PI;
-      Command cV;
-      cV.name = "mh";
-      cV.args.append(char(radius.angle));
-      cV.args.append(char(radius.length));
-      char char_command = RobotControl::MakeCommand(cV);
-      if(socket.isWritable())
-	socket.write(char_command);
     }
 }
 
@@ -88,7 +61,6 @@ void Widget::joystick_buttonPressed(int buttonId, bool state)
     {
     case 0:
       {
-	rc.SetHalt(state);
 	ui->checkBox_3->setChecked(state);
 	break;
       }
@@ -96,22 +68,19 @@ void Widget::joystick_buttonPressed(int buttonId, bool state)
       {
 	if(state)
 	  {
-	    if(rc.EnginesStarted())
+				if(ui->checkBox_2->isChecked())
 	      {
-		rc.StopEngines();
-		OBui->checkBox_2->setChecked(true);
+				ui->checkBox_2->setChecked(false);
 	      }
 	    else
 	      {
-		rc.StartEngines();
-		ui->checkBox_2->setChecked(false);
+				ui->checkBox_2->setChecked(true);
 	      }
 	  }
 	break;
       }
     case 2:
       {
-	rc.SetPitching(state);
 	break;
       }
     default:
@@ -121,14 +90,14 @@ void Widget::joystick_buttonPressed(int buttonId, bool state)
     }
 }
 
-void Widget::joystick_hatChanged(int hatId, int state)
-{
-  int value = ui->manipSpin->value();
-  if(state == joystick.Up)
-    rc.OpenManip(value);
-  if(state == joystick.Down)
-    rc.CloseManip(value);
-}
+//void Widget::joystick_hatChanged(int hatId, int state)
+//{
+//  int value = ui->manipSpin->value();
+//  if(state == joystick.Up)
+
+//  if(state == joystick.Down)
+
+//}
 
 void Widget::on_checkBox_stateChanged(int arg1)
 {
@@ -140,39 +109,34 @@ void Widget::on_checkBox_stateChanged(int arg1)
   ui->checkBox_3->setEnabled(!arg1);
 }
 
-void Widget::on_verticalSlider_2_valueChanged(int value)
-{
-  rc.SetMoveSpeed(value);
-}
+//void Widget::on_verticalSlider_2_valueChanged(int value)
+//{
+//  RobotControl.SetMoveSpeed(value);
+//}
 
-void Widget::on_horizontalSlider_valueChanged(int value)
-{
-  rc.SetRotateSpeed(value);
-}
+//void Widget::on_horizontalSlider_valueChanged(int value)
+//{
+//  rc.SetRotateSpeed(value);
+//}
 
-void Widget::on_verticalSlider_valueChanged(int value)
-{
-  rc.SetVerticalSpeed(value);
-  double depth = value / 102.0 + 2.5;
-  rc.SetTargetDepth(depth);
-  ui->heightLabel->setText(tr("������"));
-  if(ui->autoHeightCheck->isChecked())
-    ui->heightLabel->setText(QString(tr("������\n%1 �")).arg(QString::number(depth, 'g', 2)));
-}
+//void Widget::on_verticalSlider_valueChanged(int value)
+//{
+//  rc.SetVerticalSpeed(value);
+//  double depth = value / 102.0 + 2.5;
+//  rc.SetTargetDepth(depth);
+//  ui->heightLabel->setText(tr("������"));
+//  if(ui->autoHeightCheck->isChecked())
+//    ui->heightLabel->setText(QString(tr("������\n%1 �")).arg(QString::number(depth, 'g', 2)));
+//}
 
-void Widget::timer_tick()
-{
-  if (initialized)
-    {
-      for (int i = 0; i < 6; i++)
-        {
-	  em.SetSpeed(i, rc.GetSpeed(i)/2.55);
-	  em.SetReverse(i, rc.GetReverse(i));
-        }
-      double depth = rc.GetDepth(), pitch = rc.GetPitch();
-      ui->label_4->setText(QString("Depth: %1\nPitch: %2").arg(QString::number(depth)).arg(QString::number(pitch)));
-    }
-}
+//void Widget::timer_tick()
+//{
+//  if (initialized)
+//    {
+//      double depth = rc.GetDepth(), pitch = rc.GetPitch();
+//      ui->label_4->setText(QString("Depth: %1\nPitch: %2").arg(QString::number(depth)).arg(QString::number(pitch)));
+//    }
+//}
 
 void Widget::on_comboBox_2_currentIndexChanged(const QString &arg1)
 {
@@ -180,34 +144,34 @@ void Widget::on_comboBox_2_currentIndexChanged(const QString &arg1)
     QMessageBox::warning(this, "Error", "Couldn't open joystick!");
 }
 
-void Widget::on_checkBox_2_toggled(bool checked)
-{
-  if(checked)
-    rc.StopEngines();
-  else
-    rc.StartEngines();
-}
+//void Widget::on_checkBox_2_toggled(bool checked)
+//{
+//  if(checked)
+//    rc.StopEngines();
+//  else
+//    rc.StartEngines();
+//}
 
-void Widget::on_checkBox_3_toggled(bool checked)
-{
-  rc.SetHalt(checked);
-}
+//void Widget::on_checkBox_3_toggled(bool checked)
+//{
+//  rc.SetHalt(checked);
+//}
 
-void Widget::on_connectBtn_clicked()
-{
-  if(rc.Initialize(ui->ipEdit->text(), ui->portSpinBox->value(), ui->enginesSpinBox->value(), 100) < 0)
-    QMessageBox::warning(this, "Error", "Couldn't open socket!");
-  else
-    {
-      initialized = true;
-      ui->connectBtn->setEnabled(false);
-      ui->connectBtn->setText("Connected");
-      ui->horizontalSlider->setEnabled(true);
-      ui->verticalSlider->setEnabled(true);
-      ui->verticalSlider_2->setEnabled(true);
-      ui->manipBtn->setEnabled(true);
-    }
-}
+//void Widget::on_connectBtn_clicked()
+//{
+//  if(rc.Initialize(ui->ipEdit->text(), ui->portSpinBox->value(), ui->enginesSpinBox->value(), 100) < 0)
+//    QMessageBox::warning(this, "Error", "Couldn't open socket!");
+//  else
+//    {
+//      initialized = true;
+//      ui->connectBtn->setEnabled(false);
+//      ui->connectBtn->setText("Connected");
+//      ui->horizontalSlider->setEnabled(true);
+//      ui->verticalSlider->setEnabled(true);
+//      ui->verticalSlider_2->setEnabled(true);
+//      ui->manipBtn->setEnabled(true);
+//    }
+//}
 
 void Widget::RCDisconnected()
 {
@@ -235,33 +199,33 @@ void Widget::LoadConfig(QString path)
   file.close();
 }
 
-void Widget::on_manipBtn_clicked()
-{
-  if (ui->openManipRadio->isChecked())
-    rc.OpenManip(ui->manipSpin->value());
-  else
-    rc.CloseManip(ui->manipSpin->value());
-}
+//void Widget::on_manipBtn_clicked()
+//{
+//  if (ui->openManipRadio->isChecked())
+//    rc.OpenManip(ui->manipSpin->value());
+//  else
+//    rc.CloseManip(ui->manipSpin->value());
+//}
 
-void Widget::on_autoPitchCheck_stateChanged(int arg1)
-{
-  if(initialized)
-    {
-      rc.SetPitchReg(bool(arg1));
-    }
-}
+//void Widget::on_autoPitchCheck_stateChanged(int arg1)
+//{
+//  if(initialized)
+//    {
+//      rc.SetPitchReg(bool(arg1));
+//    }
+//}
 
-void Widget::on_autoHeightCheck_stateChanged(int arg1)
-{
-  int value = ui->verticalSlider->value();
-  double depth = value / 102.0 + 2.5;
-  if(initialized)
-    {
-      rc.SetManualControl(! bool(arg1));
-      rc.SetTargetDepth(depth);
-      rc.SetDepthReg(bool(arg1));
-    }
-  ui->heightLabel->setText(tr("������"));
-  if(ui->autoHeightCheck->isChecked())
-    ui->heightLabel->setText(QString(tr("������\n%1 �")).arg(QString::number(depth, 'g', 2)));
-}
+//void Widget::on_autoHeightCheck_stateChanged(int arg1)
+//{
+//  int value = ui->verticalSlider->value();
+//  double depth = value / 102.0 + 2.5;
+//  if(initialized)
+//    {
+//      rc.SetManualControl(! bool(arg1));
+//      rc.SetTargetDepth(depth);
+//      rc.SetDepthReg(bool(arg1));
+//    }
+//  ui->heightLabel->setText(tr("������"));
+//  if(ui->autoHeightCheck->isChecked())
+//    ui->heightLabel->setText(QString(tr("������\n%1 �")).arg(QString::number(depth, 'g', 2)));
+//}

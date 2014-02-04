@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QTimer>
 #include <QVector>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 class JoystickControl : public QObject
 {
