@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>687</width>
+    <width>983</width>
     <height>357</height>
    </rect>
   </property>
@@ -150,119 +150,261 @@
      </property>
     </widget>
    </widget>
-   <widget class="QSpinBox" name="spinBox_power">
-    <property name="geometry">
-     <rect>
-      <x>500</x>
-      <y>140</y>
-      <width>45</width>
-      <height>23</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_up">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>90</y>
-      <width>80</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>up</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_down">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>190</y>
-      <width>80</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>down</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_left">
+   <widget class="QGroupBox" name="groupBox_joystick">
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>140</y>
-      <width>80</width>
-      <height>22</height>
+      <y>0</y>
+      <width>281</width>
+      <height>81</height>
      </rect>
     </property>
-    <property name="text">
-     <string>left</string>
+    <property name="toolTipDuration">
+     <number>-1</number>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="title">
+     <string>Управление джойстиком</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <widget class="QComboBox" name="comboBox_joystik">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>261</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="editable">
+      <bool>false</bool>
+     </property>
+     <property name="currentText">
+      <string extracomment="Выберите джойстик"/>
+     </property>
+    </widget>
    </widget>
-   <widget class="QPushButton" name="pushButton_right">
+   <widget class="QGroupBox" name="groupBox_buttons">
     <property name="geometry">
      <rect>
-      <x>570</x>
-      <y>140</y>
-      <width>80</width>
-      <height>22</height>
+      <x>390</x>
+      <y>90</y>
+      <width>281</width>
+      <height>161</height>
      </rect>
     </property>
-    <property name="text">
-     <string>right</string>
+    <property name="title">
+     <string>Управление клавишами</string>
     </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <widget class="QPushButton" name="pushButton_down_right">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>110</y>
+       <width>80</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>down-right</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_up">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>30</y>
+       <width>80</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>up</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_up_right">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>50</y>
+       <width>80</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>up-right</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_up_left">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>80</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>up-left</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_down_left">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>110</y>
+       <width>80</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>down-left</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_right">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>80</y>
+       <width>80</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>right</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_down">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>130</y>
+       <width>80</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>down</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_left">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>80</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>left</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_power">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>80</y>
+       <width>45</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
-   <widget class="QPushButton" name="pushButton_up_right">
+   <widget class="QGroupBox" name="groupBox_manual">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>110</y>
-      <width>80</width>
-      <height>22</height>
+      <x>680</x>
+      <y>0</y>
+      <width>291</width>
+      <height>251</height>
      </rect>
     </property>
-    <property name="text">
-     <string>up-right</string>
+    <property name="title">
+     <string>Ручное управление</string>
     </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_up_left">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>110</y>
-      <width>80</width>
-      <height>22</height>
-     </rect>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
-    <property name="text">
-     <string>up-left</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_down_left">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>170</y>
-      <width>80</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>down-left</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_down_right">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>170</y>
-      <width>80</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>down-right</string>
-    </property>
+    <widget class="QSlider" name="slider_y">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>230</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>-50</number>
+     </property>
+     <property name="maximum">
+      <number>50</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QSlider" name="slider_x">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>49</y>
+       <width>20</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>-50</number>
+     </property>
+     <property name="maximum">
+      <number>50</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QSlider" name="slider_z">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>49</y>
+       <width>20</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>-50</number>
+     </property>
+     <property name="maximum">
+      <number>50</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -270,7 +412,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>687</width>
+     <width>983</width>
      <height>19</height>
     </rect>
    </property>

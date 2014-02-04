@@ -12,10 +12,16 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = RobotK
 TEMPLATE = app
 
+LIBS += -lSDL
+
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    joystickcontrol.cpp \
+    other.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    joystickcontrol.h \
+    other.h
 
 FORMS    += mainwindow.ui
