@@ -1,5 +1,5 @@
 #include "joystickcontrol.h"
-#include "SDL2/SDL.h"
+#include "SDL/SDL.h"
 #include <QStringList>
 
 JoystickControl::JoystickControl(QObject *parent) :
@@ -15,9 +15,9 @@ JoystickControl::~JoystickControl()
 {
 }
 
-int JoystickControl::Initialize(QString joystickName, int updateTime)
+bool JoystickControl::Initialize(QString joystickName, int updateTime)
 {
-    int flag = -1;
+    bool flag = false;
     if(SDL_Init(SDL_INIT_JOYSTICK) >= 0)
     {
         for(int i = 0; i < SDL_NumJoysticks(); i++ )
@@ -25,7 +25,7 @@ int JoystickControl::Initialize(QString joystickName, int updateTime)
             {
                 joystick = SDL_JoystickOpen(i);
                 timer.start(updateTime);
-                flag = 1;
+                flag = true;
             }
         numButtons = SDL_JoystickNumButtons(joystick);
         buttonStates.clear();

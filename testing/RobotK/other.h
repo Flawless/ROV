@@ -19,7 +19,6 @@ public:
   int   length;
 };
 
-QString makeCommand(ArgList argList);
 
 
 
