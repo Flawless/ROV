@@ -8,19 +8,12 @@
 #include <QTime>
 #include <QStringList>
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(Core* pCore, QWidget* parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
-  ui->setupUi(this); 
-  // QStringList joystickNames = Core::request_JoystickNames();
-  // bool joystickInitialized = Core::request_JoystickInitialized();
-  // ui->comboBox_joystik->addItems(joystickNames);
-
-  // if(joystickNames.length() < 1)
-  //   QMessageBox::warning(this, "Error", "No joysticks available!");
-  // else if(!joystickInitialized)
-  //   QMessageBox::warning(this, "Error", "Couldn't open joystick!");
+  ui->setupUi(this);
+  pointer_Core = pCore;
 }
 
 MainWindow::~MainWindow()
@@ -30,8 +23,41 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_connect_clicked()
 {
-  emit socket_connect(ui->lineEdit_ip->text(), ui->lineEdit_portNumber->text().toInt());
+  emit sig_connect(ui->lineEdit_ip->text(), ui->lineEdit_portNumber->text().toInt());
 }
+void MainWindow::on_pushButton_disconnect_clicked()
+{
+  emit sig_disconnect();
+}
+void MainWindow::on_groupBox_manual_toggled(bool arg1)
+{
+  if(arg1) {
+    ui->groupBox_buttons->setChecked(!arg1);
+    ui->groupBox_joystick->setChecked(!arg1);
+    emit sig_positionControlTypeChanged(1);
+  }
+}
+void MainWindow::on_groupBox_joystick_toggled(bool arg1)
+{
+  if(arg1) {
+    ui->groupBox_buttons->setChecked(!arg1);
+    ui->groupBox_manual->setChecked(!arg1);
+    emit sig_positionControlTypeChanged(2);
+  }
+}
+void MainWindow::on_groupBox_buttons_toggled(bool arg1)
+{
+  if(arg1) {
+    ui->groupBox_manual->setChecked(!arg1);
+    ui->groupBox_joystick->setChecked(!arg1);
+    emit sig_positionControlTypeChanged(0);
+  }
+}
+void MainWindow::on_comboBox_joystik_currentTextChanged(const QString &arg1)
+{
+  emit sig_joystickChanged(arg1);
+}
+
 // void MainWindow::on_pushButton_sendCommand_clicked()
 // {
 //   send(ui->lineEdit_command->text());
@@ -81,33 +107,6 @@ void MainWindow::on_pushButton_connect_clicked()
 //   send("#mh.315." + QString::number((ui->spinBox_power->value())) + "!");
 // }
 
-// void MainWindow::on_groupBox_manual_toggled(bool arg1)
-// {
-//   if(arg1) {
-//     ui->groupBox_buttons->setChecked(!arg1);
-//     ui->groupBox_joystick->setChecked(!arg1);
-//     joystickEnabled = !arg1;
-//   }
-// }
-
-// void MainWindow::on_groupBox_joystick_toggled(bool arg1)
-// {
-//   if(arg1) {
-//     ui->groupBox_buttons->setChecked(!arg1);
-//     ui->groupBox_manual->setChecked(!arg1);
-//     joystickEnabled = arg1;
-//   }
-// }
-
-// void MainWindow::on_groupBox_buttons_toggled(bool arg1)
-// {
-//   if(arg1) {
-//     ui->groupBox_manual->setChecked(!arg1);
-//     ui->groupBox_joystick->setChecked(!arg1);
-//     joystickEnabled = !arg1;
-//   }
-// }
-
 // void MainWindow::on_slider_x_valueChanged(int value)
 // {
 //   sendSpeedCommand(ui->slider_x->value(), ui->slider_y->value());
@@ -149,8 +148,4 @@ void MainWindow::on_pushButton_connect_clicked()
 // //  MainWindow::sendCommand(char_command.toStdString().c_str());
 // }
 
-// void MainWindow::on_comboBox_joystik_currentTextChanged(const QString &arg1)
-// {
-//   if(! joystick.Initialize(arg1, 50) > 0)
-//     QMessageBox::warning(this, "Error", "Couldn't open joystick!");
-// }
+

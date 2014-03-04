@@ -15,13 +15,8 @@ TEMPLATE = app
 LIBS += -lSDL
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    joystickcontrol.cpp \
-    other.cpp
+SOURCES += main.cpp mainwindow.cpp joystickcontrol.cpp other.cpp core.cpp
 
-HEADERS  += mainwindow.h \
-    joystickcontrol.h \
-    other.h
+HEADERS  += mainwindow.h joystickcontrol.h other.h core.h
 
 FORMS    += mainwindow.ui

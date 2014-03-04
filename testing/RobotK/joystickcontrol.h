@@ -13,7 +13,7 @@ public:
     explicit JoystickControl(QObject *parent = 0);
 
     ~JoystickControl();
-
+    QString currentJoystickName;
     bool Initialize(QString joystickName, int updateTime);
 
     static QStringList GetJoystickNames();

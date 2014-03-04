@@ -1,16 +1,29 @@
 #include "core.h"
-#include "joystickcontrol.h"
+//#include "joystickcontrol.h"
 
 Core::Core()
 {
   lastSend = QTime::currentTime();
-
   updateTime = 50; //ms
+  JoystickControl joystickControl;
+  pJoystickControl = &joystickControl;
 }
 
-void Core::socket_connect(QString ip, int port)
+void Core::slot_connect(QString ip, int port)
 {
   socket.connectToHost(ip, port);
+}
+void Core::slot_disconnect()
+{
+  socket.disconnect();
+}
+void Core::slot_positionControlTypeChanged(int controlType)
+{
+  positionControlType = controlType;
+}
+void Core::slot_joystickChaged(QString joystickName)
+{
+  pJoystickControl->currentJoystickName = joystickName;
 }
 
 // Core::joystick_axisChanged(int arg1, int arg2, int arg3)
