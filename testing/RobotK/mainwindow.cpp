@@ -12,15 +12,15 @@ MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
-  ui->setupUi(this);
-  QStringList joystickNames = Core::request_JoystickNames();
-  bool joystickInitialized = Core::request_JoystickInitialized();
-  ui->comboBox_joystik->addItems(joystickNames);
+  ui->setupUi(this); 
+  // QStringList joystickNames = Core::request_JoystickNames();
+  // bool joystickInitialized = Core::request_JoystickInitialized();
+  // ui->comboBox_joystik->addItems(joystickNames);
 
-  if(joystickNames.length() < 1)
-    QMessageBox::warning(this, "Error", "No joysticks available!");
-  else if(!joystickInitialized)
-    QMessageBox::warning(this, "Error", "Couldn't open joystick!");
+  // if(joystickNames.length() < 1)
+  //   QMessageBox::warning(this, "Error", "No joysticks available!");
+  // else if(!joystickInitialized)
+  //   QMessageBox::warning(this, "Error", "Couldn't open joystick!");
 }
 
 MainWindow::~MainWindow()
@@ -28,25 +28,9 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
-// void MainWindow::joystick_axisChanged(int arg1, int arg2, int arg3)
-// {
-//   if(joystickEnabled)
-//   {
-//     int x =     arg1 * 100 / 32768,
-//         y =  -  arg2 * 100 / 32768,
-//         z =     arg3 * 100 / 32768;
-//     ui->slider_y->setValue(y);
-//     ui->slider_z->setValue(z);
-//     ui->slider_x->setValue(x);
-//   }
-// }
-host_ip()
+void MainWindow::on_pushButton_connect_clicked()
 {
-  return ui->linueEdit_ip->text();
-}
-host_port()
-{
-  return ui->lineEdit_portNumber->text().toInt();
+  emit socket_connect(ui->lineEdit_ip->text(), ui->lineEdit_portNumber->text().toInt());
 }
 // void MainWindow::on_pushButton_sendCommand_clicked()
 // {
@@ -97,76 +81,76 @@ host_port()
 //   send("#mh.315." + QString::number((ui->spinBox_power->value())) + "!");
 // }
 
-void MainWindow::on_groupBox_manual_toggled(bool arg1)
-{
-  if(arg1) {
-    ui->groupBox_buttons->setChecked(!arg1);
-    ui->groupBox_joystick->setChecked(!arg1);
-    joystickEnabled = !arg1;
-  }
-}
+// void MainWindow::on_groupBox_manual_toggled(bool arg1)
+// {
+//   if(arg1) {
+//     ui->groupBox_buttons->setChecked(!arg1);
+//     ui->groupBox_joystick->setChecked(!arg1);
+//     joystickEnabled = !arg1;
+//   }
+// }
 
-void MainWindow::on_groupBox_joystick_toggled(bool arg1)
-{
-  if(arg1) {
-    ui->groupBox_buttons->setChecked(!arg1);
-    ui->groupBox_manual->setChecked(!arg1);
-    joystickEnabled = arg1;
-  }
-}
+// void MainWindow::on_groupBox_joystick_toggled(bool arg1)
+// {
+//   if(arg1) {
+//     ui->groupBox_buttons->setChecked(!arg1);
+//     ui->groupBox_manual->setChecked(!arg1);
+//     joystickEnabled = arg1;
+//   }
+// }
 
-void MainWindow::on_groupBox_buttons_toggled(bool arg1)
-{
-  if(arg1) {
-    ui->groupBox_manual->setChecked(!arg1);
-    ui->groupBox_joystick->setChecked(!arg1);
-    joystickEnabled = !arg1;
-  }
-}
+// void MainWindow::on_groupBox_buttons_toggled(bool arg1)
+// {
+//   if(arg1) {
+//     ui->groupBox_manual->setChecked(!arg1);
+//     ui->groupBox_joystick->setChecked(!arg1);
+//     joystickEnabled = !arg1;
+//   }
+// }
 
-void MainWindow::on_slider_x_valueChanged(int value)
-{
-  sendSpeedCommand(ui->slider_x->value(), ui->slider_y->value());
+// void MainWindow::on_slider_x_valueChanged(int value)
+// {
+//   sendSpeedCommand(ui->slider_x->value(), ui->slider_y->value());
 
-}
+// }
 
-void MainWindow::on_slider_z_valueChanged(int value)
-{
+// void MainWindow::on_slider_z_valueChanged(int value)
+// {
 
-}
+// }
 
-void MainWindow::on_slider_y_valueChanged(int value)
-{
-  sendSpeedCommand(ui->slider_x->value(), ui->slider_y->value());
-}
+// void MainWindow::on_slider_y_valueChanged(int value)
+// {
+//   sendSpeedCommand(ui->slider_x->value(), ui->slider_y->value());
+// }
 
-void MainWindow::sendSpeedCommand(int x, int y)
-{
-  Radius radius;
-  radius.length = sqrt(y*y + x*x);
-  if(x>0 && y>=0)
-    radius.angle = atan(y/x);
-  else if(x>0 && y<0)
-    radius.angle = atan(y/x) + 2*M_PI;
-  else if(x<0)
-    radius.angle = atan(y/x) + M_PI;
-  else if(x==0 && y>0)
-    radius.angle = M_PI_2;
-  else if(x==0 && y>0)
-    radius.angle = 3*M_PI_2;
-  else if(x==0 && y==0)
-    radius.angle = 0;
-  radius.angle *= 180/M_PI;
-  command.name = "mh";
-  command.args.append(QString::number(round(radius.angle)));
-  command.args.append(QString::number(radius.length));
-//  QString char_command = OTHER_H::makeCommand(command);
-  sendCommand(command, true);
-//  MainWindow::sendCommand(char_command.toStdString().c_str());
-}
+// void MainWindow::sendSpeedCommand(int x, int y)
+// {
+//   Radius radius;
+//   radius.length = sqrt(y*y + x*x);
+//   if(x>0 && y>=0)
+//     radius.angle = atan(y/x);
+//   else if(x>0 && y<0)
+//     radius.angle = atan(y/x) + 2*M_PI;
+//   else if(x<0)
+//     radius.angle = atan(y/x) + M_PI;
+//   else if(x==0 && y>0)
+//     radius.angle = M_PI_2;
+//   else if(x==0 && y>0)
+//     radius.angle = 3*M_PI_2;
+//   else if(x==0 && y==0)
+//     radius.angle = 0;
+//   radius.angle *= 180/M_PI;
+//   command.name = "mh";
+//   command.args.append(QString::number(round(radius.angle)));
+//   command.args.append(QString::number(radius.length));
+// //  QString char_command = OTHER_H::makeCommand(command);
+//   sendCommand(command, true);
+// //  MainWindow::sendCommand(char_command.toStdString().c_str());
+// }
 
-void MainWindow::on_comboBox_joystik_currentTextChanged(const QString &arg1)
-{
-  if(! joystick.Initialize(arg1, 50) > 0)
-    QMessageBox::warning(this, "Error", "Couldn't open joystick!");
-}
+// void MainWindow::on_comboBox_joystik_currentTextChanged(const QString &arg1)
+// {
+//   if(! joystick.Initialize(arg1, 50) > 0)
+//     QMessageBox::warning(this, "Error", "Couldn't open joystick!");
+// }

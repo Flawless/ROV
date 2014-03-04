@@ -14,7 +14,7 @@ public:
 
     ~JoystickControl();
 
-    int Initialize(QString joystickName, int updateTime);
+    bool Initialize(QString joystickName, int updateTime);
 
     static QStringList GetJoystickNames();
 
