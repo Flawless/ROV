@@ -1,19 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "joystickcontrol.h"
-#include "other.h"
 #include "math.h"
 
 #include <QtWidgets/QMessageBox>
 #include <QTime>
 #include <QStringList>
 
-MainWindow::MainWindow(Core* pCore, QWidget* parent) :
+MainWindow::MainWindow(QWidget* parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
-  pointer_Core = pCore;
 }
 
 MainWindow::~MainWindow()
@@ -56,6 +54,12 @@ void MainWindow::on_groupBox_buttons_toggled(bool arg1)
 void MainWindow::on_comboBox_joystik_currentTextChanged(const QString &arg1)
 {
   emit sig_joystickChanged(arg1);
+}
+void MainWindow::slot_joystickPositionChanged(int arg1, int arg2, int arg3)
+{
+  ui->slider_x->setValue(arg1);
+  ui->slider_y->setValue(arg2);
+  ui->slider_z->setValue(arg3);
 }
 
 // void MainWindow::on_pushButton_sendCommand_clicked()

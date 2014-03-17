@@ -7,11 +7,6 @@
 #include <QtGui/QKeyEvent>
 #include <QTime>
 
-#include <joystickcontrol.h>
-#include <other.h>
-#include <core.h>
-
-
 namespace Ui {
 class MainWindow;
 }
@@ -21,7 +16,7 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  explicit MainWindow(Core* core, QWidget *parent = 0);
+  explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
   /* QString currentJoystickName(); */
   /* int depth_manipulationType(); 
@@ -54,12 +49,12 @@ signals:
   void sig_positionControlTypeChanged(int controlType); // 1 - manual (GUI sliders); 2 - joystick
   void sig_depthControlTypeChanged(int controlType); // 0 - desired depth; 1 - manual (GUI sliders); 2 - joystick
 
-public:
+public slots:
+    void slot_joystickPositionChanged(int arg1, int arg2, int arg3);
 
 private:
   Ui::MainWindow *ui;
   QString qstringCommand;
-  Core* pointer_Core;
 };
 
 #endif // MAINWINDOW_H

@@ -6,6 +6,7 @@
 #include <QVector>
 #include <SDL/SDL.h>
 
+//#include "core.h"
 class JoystickControl : public QObject
 {
     Q_OBJECT
@@ -32,7 +33,7 @@ public:
         LeftUp = Up|Left,
         LeftDown = Down|Left
     } HatStates;
-
+ signals:
 private:
     int initializeons, hats,
         oldX, oldY, oldZ, numButtons;
@@ -43,7 +44,6 @@ private:
 
 signals:
     void axisEvent(int arg1, int arg2, int arg3);
-
     void buttonEvent(int buttodId, bool state);
 
     void hatEvent(int hatId, int state);
