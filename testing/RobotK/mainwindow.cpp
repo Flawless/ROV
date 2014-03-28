@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "joystickcontrol.h"
-#include "math.h"
 
 #include <QtWidgets/QMessageBox>
 #include <QTime>

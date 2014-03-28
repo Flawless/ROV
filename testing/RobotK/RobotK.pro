@@ -15,10 +15,8 @@ TEMPLATE = app
 LIBS += -lSDL
 
 
-SOURCES += main.cpp mainwindow.cpp joystickcontrol.cpp core.cpp \
-    robotsocket.cpp
+SOURCES += main.cpp mainwindow.cpp joystickcontrol.cpp core.cpp
 
-HEADERS  += mainwindow.h joystickcontrol.h core.h \
-    robotsocket.h
+HEADERS  += mainwindow.h joystickcontrol.h core.h
 
 FORMS    += mainwindow.ui

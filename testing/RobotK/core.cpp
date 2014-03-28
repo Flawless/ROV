@@ -1,9 +1,9 @@
 #include "core.h"
 
+#include "math.h"
+
 Core::Core(JoystickControl* joyP, MainWindow* winP)
 {
-  lastSend = QTime::currentTime();
-  updateTime = 50; //ms
   pJoystickControl = joyP;
   pWindow = winP;
   //JOYSTICK POSITION
@@ -27,15 +27,33 @@ void Core::slot_joystickSelected(QString joystickName)
 }
 void Core::slot_joystickPositionChanged(int arg1, int arg2, int arg3)
 {
-  //  emit sig_joystickPositionChanged(arg1,arg2,arg3);
+  QString command=makeSpeedCommand(arg1, arg2);
+  send(command);
 }
-
+QString Core::makeSpeedCommand(int x, int y)
+{
+  double angle;
+  int length = sqrt(y*y + x*x);
+  if(x>0 && y>=0)
+    angle = atan(y/x);
+  else if(x>0 && y<0)
+    angle = atan(y/x) + 2*M_PI;
+  else if(x<0)
+    angle = atan(y/x) + M_PI;
+  else if(x==0 && y>0)
+    angle = M_PI_2;
+  else if(x==0 && y>0)
+    angle = 3*M_PI_2;
+  else if(x==0 && y==0)
+    angle = 0;
+  angle *= 180/M_PI;
+  return "#mh."+QString::number(round(angle))+"."+QString::number(length)+"!";
+}
 void Core::send(QString qstringCommand)
 {
   if(socket.isWritable())
   {
     socket.write(qstringCommand.toStdString().c_str());
-    lastSend = QTime::currentTime();
   }
 }
 
