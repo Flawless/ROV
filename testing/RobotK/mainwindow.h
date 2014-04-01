@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow
 public:
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
+  void setUiSlidersMaximum(int arg);
   /* QString currentJoystickName(); */
   /* int depth_manipulationType(); 
   /* int plain_manipulationType(); // 0 - desired coords(unused); 1 - manual (GUI Sliders); 2 - joystick */
@@ -51,6 +52,7 @@ signals:
 
 public slots:
     void slot_joystickPositionChanged(int arg1, int arg2, int arg3);
+    void slot_newJoyList(QStringList joyList);
 
 private:
   Ui::MainWindow *ui;

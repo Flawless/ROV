@@ -17,7 +17,7 @@ public:
     QString currentJoystickName;
     bool Initialize(QString joystickName, int updateTime);
 
-    static QStringList GetJoystickNames();
+    QStringList GetJoystickNames();
 
     int GetHatState(int hatId);
 

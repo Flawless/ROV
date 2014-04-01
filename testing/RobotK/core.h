@@ -17,12 +17,14 @@ public:
   Core(JoystickControl* joyP, MainWindow* winP);
   QStringList question_JoystickNames();
   void send(QString qstringCommand);
-  int positionControlType;
 private:
+  const int axisMax = 32768;
+  const bool debug = true;
+  QStringList joyList;
   QString makeSpeedCommand(int x, int y);
   QTcpSocket socket;
   QTimer     timer;
-  int        updateTime;
+  const int  updateTime = 50;
   MainWindow* pWindow;
   JoystickControl* pJoystickControl;
 public slots:
@@ -33,9 +35,10 @@ public slots:
   void slot_positionControlTypeChanged(int cType);
   void slot_joystickSelected(QString joystickName);
   void slot_joystickPositionChanged(int arg1, int arg2, int arg3);
-  /* void sendCommand(ArgList command, bool timeCheck); */
+  //debug
+  void slot_debug_PrintAxisPosition(int arg1, int arg2, int arg3);
 signals:
-  /* void commandSent(QString command); */
+  void sig_newJoyList(QStringList joyList);
 };
 
 #endif // CORE_H

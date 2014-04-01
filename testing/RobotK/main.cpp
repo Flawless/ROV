@@ -13,16 +13,14 @@ int main(int argc, char *argv[])
   //CONNECTION
   QObject::connect(&w, SIGNAL(sig_connect(QString, int)), &core, SLOT(slot_connect(QString, int)));
   QObject::connect(&w, SIGNAL(sig_disconnect(QString, int)), &core, SLOT(slot_disconnect(QString, int)));
-    
   //CONTROL TYPE CHANGE
   QObject::connect(&w, SIGNAL(sig_positionControlTypeChanged(int)), &core, SLOT(slot_positionControlTypeChanged(int)));
-    
   //JOYSTICK NAME CHANGE
   QObject::connect(&w, SIGNAL(sig_joystickChanged(QString)), &core, SLOT(slot_joystickSelected(QString)));
-
+  //NEW JOYSTICK FOUND
+  QObject::connect(&core, SIGNAL(sig_newJoyList(QStringList)), &w, SLOT(slot_newJoyList(QStringList))); 
   w.show();
 
- 
-   
+
   return a.exec();
 }

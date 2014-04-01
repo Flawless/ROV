@@ -17,7 +17,15 @@ MainWindow::~MainWindow()
 {
   delete ui;
 }
-
+void MainWindow::setUiSlidersMaximum(int arg)
+{
+  ui->slider_x->setMinimum(arg*(-1));
+  ui->slider_y->setMinimum(arg*(-1));
+  ui->slider_z->setMinimum(arg*(-1));
+  ui->slider_x->setMaximum(arg);
+  ui->slider_y->setMaximum(arg);
+  ui->slider_z->setMaximum(arg);
+}
 void MainWindow::on_pushButton_connect_clicked()
 {
   emit sig_connect(ui->lineEdit_ip->text(), ui->lineEdit_portNumber->text().toInt());
@@ -60,7 +68,10 @@ void MainWindow::slot_joystickPositionChanged(int arg1, int arg2, int arg3)
   ui->slider_y->setValue(arg2);
   ui->slider_z->setValue(arg3);
 }
-
+void MainWindow::slot_newJoyList(QStringList joyList)
+{
+  ui->comboBox_joystick->addItems(joyList);
+}
 // void MainWindow::on_pushButton_sendCommand_clicked()
 // {
 //   send(ui->lineEdit_command->text());
@@ -69,7 +80,6 @@ void MainWindow::slot_joystickPositionChanged(int arg1, int arg2, int arg3)
 // {
 //   on_pushButton_sendCommand_clicked();
 // }
-
 // void MainWindow::on_pushButton_up_clicked()
 // {
 //   send("#mh.0." + QString::number((ui->spinBox_power->value())) + "!");

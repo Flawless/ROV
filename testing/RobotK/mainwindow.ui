@@ -175,12 +175,12 @@
      <bool>true</bool>
     </property>
     <property name="checked">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="toolTipDuration" stdset="0">
      <number>-1</number>
     </property>
-    <widget class="QComboBox" name="comboBox_joystik">
+    <widget class="QComboBox" name="comboBox_joystick">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -334,6 +334,9 @@
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_manual">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -347,6 +350,9 @@
     </property>
     <property name="checkable">
      <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
     </property>
     <widget class="QSlider" name="slider_y">
      <property name="geometry">
@@ -413,7 +419,7 @@
      <x>0</x>
      <y>0</y>
      <width>983</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

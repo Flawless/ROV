@@ -1,6 +1,7 @@
 #include "joystickcontrol.h"
 #include "SDL/SDL.h"
 #include <QStringList>
+#include <math.h>
 
 JoystickControl::JoystickControl(QObject *parent) :
   QObject(parent),
@@ -46,13 +47,17 @@ QStringList JoystickControl::GetJoystickNames()
 {
   SDL_Init(SDL_INIT_JOYSTICK);
   QStringList list;
+  QString qjsn;
   SDL_Joystick *joystick;
   const char* jsn;
   for(int i=0; i < SDL_NumJoysticks(); i++ )
+    {
 //    joystick = SDL_JoystickOpen(i);
 //    jsn = SDL_JoystickName(joystick);
     jsn = SDL_JoystickName(i);
-    list.append(jsn);
+    qjsn = jsn;
+    list.append(qjsn);
+    }
   SDL_Quit();
   return list;
 }
